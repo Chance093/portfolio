@@ -2,4 +2,4 @@ function helloWorld(w: string) {
   console.log("hello", w);
 }
 
-helloWorld("world");
+helloWorld("something else");
