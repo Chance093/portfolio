@@ -1,0 +1,23 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "Portfolio Website",
+  "homepage": "https://github.com/Chance093/portfolio#readme",
+  "bugs": {
+    "url": "https://github.com/Chance093/portfolio/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Chance093/portfolio.git"
+  },
+  "license": "ISC",
+  "author": "Chance093",
+  "type": "esnext",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}
