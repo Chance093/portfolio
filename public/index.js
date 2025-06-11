@@ -1,9 +1,9 @@
-import { bootLog } from "./content.js";
+import { ascii, bootLog } from "./content.js";
 async function renderTerminal() {
     const terminal = document.getElementById("terminalWindow");
     if (!terminal)
         throw new Error("Terminal not set in HTML");
-    await renderIntroText(terminal, 30);
+    await renderIntroText(terminal, 10);
     renderInputLine(terminal);
 }
 function renderInputLine(term) {
@@ -42,8 +42,16 @@ async function renderIntroText(el, ms) {
             ms /= 8;
         }
         await sleep(ms);
-        const pre = createElement("pre", ["intro"], bootLog[i]);
+        const pre = createElement("pre", ["intro"], log);
         el.appendChild(pre);
+        el.scrollTop = el.scrollHeight;
+    }
+    const breakEl = createElement("br", []);
+    el.appendChild(breakEl);
+    for (let i = 0; i < ascii.length; i++) {
+        const pre = createElement("pre", [], ascii[i]);
+        el.appendChild(pre);
+        el.scrollTop = el.scrollHeight;
     }
 }
 renderTerminal();
