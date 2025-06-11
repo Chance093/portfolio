@@ -64,13 +64,14 @@ async function renderIntroText(el, ms) {
         el.scrollTop = el.scrollHeight;
     }
 }
-function executeCommand(e, term) {
+async function executeCommand(e, term) {
     const input = e.currentTarget;
     if (e.key === "Enter") {
         e.preventDefault();
         const cmdLine = input.value.trim();
         const commands = cmdLine.split(" ");
         const cmd = commands[0];
+        await sleep(100);
         switch (cmd) {
             case "ls":
                 console.log("list");
@@ -91,7 +92,7 @@ function executeCommand(e, term) {
                 console.log("show commands");
                 break;
             default:
-                console.log("command does not exist");
+                defaultCommand(term, cmd);
                 break;
         }
         input.readOnly = true;
@@ -103,5 +104,9 @@ function clearCommand(term) {
     while (term.firstChild) {
         term.removeChild(term.firstChild);
     }
+}
+function defaultCommand(term, cmd) {
+    const p = createElement("p", ["output"], `${cmd}: command not found`);
+    term.appendChild(p);
 }
 renderTerminal();

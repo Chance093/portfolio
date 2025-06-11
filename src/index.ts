@@ -83,13 +83,15 @@ async function renderIntroText(el: HTMLElement, ms: number) {
   }
 }
 
-function executeCommand(e: KeyboardEvent, term: HTMLElement) {
+async function executeCommand(e: KeyboardEvent, term: HTMLElement) {
   const input = e.currentTarget as HTMLInputElement;
   if (e.key === "Enter") {
     e.preventDefault();
     const cmdLine = input.value.trim();
     const commands = cmdLine.split(" ");
     const cmd = commands[0];
+
+    await sleep(100);
 
     switch (cmd) {
       case "ls":
@@ -111,7 +113,7 @@ function executeCommand(e: KeyboardEvent, term: HTMLElement) {
         console.log("show commands");
         break;
       default:
-        console.log("command does not exist");
+        defaultCommand(term, cmd);
         break;
     }
 
@@ -125,6 +127,11 @@ function clearCommand(term: HTMLElement) {
   while (term.firstChild) {
     term.removeChild(term.firstChild);
   }
+}
+
+function defaultCommand(term: HTMLElement, cmd: string) {
+  const p = createElement("p", ["output"], `${cmd}: command not found`);
+  term.appendChild(p);
 }
 
 renderTerminal();
