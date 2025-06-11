@@ -1,13 +1,39 @@
-async function renderPage() {
+async function renderTerminal() {
   const terminal = document.getElementById("terminal");
-  if (!terminal) {
-    throw new Error("Terminal not set in HTML");
+  if (!terminal) throw new Error("Terminal not set in HTML");
+
+  await renderIntroText(terminal, 1);
+  renderInputLine(terminal);
+}
+
+function renderInputLine(term: HTMLElement) {
+  // create input line elements
+  const div = createElement("div", ["inputLine"]);
+  const user = createElement("p", ["user"], "user@root  $");
+  const input = createElement("input", ["input"]);
+  input.setAttribute("type", "text");
+
+  // append to each other
+  div.appendChild(user);
+  div.appendChild(input);
+  term.appendChild(div);
+
+  // focus cursor on input
+  input.focus();
+}
+
+function createElement(el: string, classes: string[], text?: string) {
+  const element = document.createElement(el);
+
+  if (classes.length > 0) {
+    element.classList.add(...classes);
   }
 
-  terminal.textContent += "\n\n";
-  await renderIntroText(terminal, 70);
+  if (text) {
+    element.textContent = text;
+  }
 
-  renderInputLine(terminal)
+  return element;
 }
 
 function sleep(ms: number): Promise<void> {
@@ -22,22 +48,4 @@ async function renderIntroText(el: HTMLElement, ms: number) {
   }
 }
 
-function renderInputLine(el: HTMLElement) {
-  const div = document.createElement("div");
-  div.classList.add("inputLine");
-
-  const user = document.createElement("p");
-  user.textContent = "user@root  $";
-  user.classList.add("user");
-  div.appendChild(user);
-
-  const input = document.createElement("input");
-  input.setAttribute("type", "text");
-  input.classList.add("input");
-  div.appendChild(input)
-
-  el.appendChild(div);
-  input.focus();
-}
-
-renderPage();
+renderTerminal();
