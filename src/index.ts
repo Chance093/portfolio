@@ -14,6 +14,7 @@ function renderInputLine(term: HTMLElement) {
   const user = createElement("p", ["user"], "[portfolio@chance ~]$ ");
   const input = createElement("input", ["input"]);
   input.setAttribute("type", "text");
+  input.addEventListener("keydown", (e) => executeCommand(e, term));
 
   // append to each other
   div.appendChild(user);
@@ -43,28 +44,86 @@ function sleep(ms: number): Promise<void> {
 }
 
 async function renderIntroText(el: HTMLElement, ms: number) {
+  // add tiny sleep to prevent loading before browser load
+  await sleep(200);
+
+  // load in all the bootlog info
   for (let i = 0; i < bootLog.length; i++) {
     const log = bootLog[i];
-    if (log.includes("Loading drivers") || log.includes("Mounting virtual") || log.includes("Starting system")) {
+    if (
+      log.includes("Loading drivers") ||
+      log.includes("Mounting virtual") ||
+      log.includes("Starting system")
+    ) {
       ms *= 8;
     }
-    if (log.includes("Starting udev") || log.includes("devpts") || log.includes("Cleaning up")) {
+    if (
+      log.includes("Starting udev") ||
+      log.includes("devpts") ||
+      log.includes("Cleaning up")
+    ) {
       ms /= 8;
     }
     await sleep(ms);
-    const pre = createElement("pre", ["intro"], log)
+    const pre = createElement("pre", ["intro"], log);
     el.appendChild(pre);
 
     el.scrollTop = el.scrollHeight;
   }
 
+  // create break between bootlog and ascii
   const breakEl = createElement("br", []);
   el.appendChild(breakEl);
 
+  // load in ascii picture
   for (let i = 0; i < ascii.length; i++) {
-    const pre = createElement("pre", [], ascii[i])
+    const pre = createElement("pre", [], ascii[i]);
     el.appendChild(pre);
     el.scrollTop = el.scrollHeight;
+  }
+}
+
+function executeCommand(e: KeyboardEvent, term: HTMLElement) {
+  const input = e.currentTarget as HTMLInputElement;
+  if (e.key === "Enter") {
+    e.preventDefault();
+    const cmdLine = input.value.trim();
+    const commands = cmdLine.split(" ");
+    const cmd = commands[0];
+
+    switch (cmd) {
+      case "ls":
+        console.log("list");
+        break;
+      case "cd":
+        console.log("change directory");
+        break;
+      case "cat":
+        console.log("concatenate");
+        break;
+      case "clear":
+        clearCommand(term);
+        break;
+      case "help":
+        console.log("help out");
+        break;
+      case "commands":
+        console.log("show commands");
+        break;
+      default:
+        console.log("command does not exist");
+        break;
+    }
+
+    input.readOnly = true;
+    renderInputLine(term);
+  }
+}
+
+// clears the terminal
+function clearCommand(term: HTMLElement) {
+  while (term.firstChild) {
+    term.removeChild(term.firstChild);
   }
 }
 
