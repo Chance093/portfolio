@@ -1,15 +1,17 @@
+import { bootLog } from "./content.js";
+
 async function renderTerminal() {
-  const terminal = document.getElementById("terminal");
+  const terminal = document.getElementById("terminalWindow");
   if (!terminal) throw new Error("Terminal not set in HTML");
 
-  await renderIntroText(terminal, 1);
+  await renderIntroText(terminal, 30);
   renderInputLine(terminal);
 }
 
 function renderInputLine(term: HTMLElement) {
   // create input line elements
   const div = createElement("div", ["inputLine"]);
-  const user = createElement("p", ["user"], "user@root  $");
+  const user = createElement("p", ["user"], "[portfolio@chance ~]$ ");
   const input = createElement("input", ["input"]);
   input.setAttribute("type", "text");
 
@@ -41,10 +43,17 @@ function sleep(ms: number): Promise<void> {
 }
 
 async function renderIntroText(el: HTMLElement, ms: number) {
-  const TEXT = "Type the command help";
-  for (let i = 0; i < TEXT.length; i++) {
+  for (let i = 0; i < bootLog.length; i++) {
+    const log = bootLog[i];
+    if (log.includes("Loading drivers") || log.includes("Mounting virtual") || log.includes("Starting system")) {
+      ms *= 8;
+    }
+    if (log.includes("Starting udev") || log.includes("devpts") || log.includes("Cleaning up")) {
+      ms /= 8;
+    }
     await sleep(ms);
-    el.textContent += TEXT[i];
+    const pre = createElement("pre", ["intro"], bootLog[i])
+    el.appendChild(pre);
   }
 }
 
