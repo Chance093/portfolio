@@ -196,7 +196,7 @@ input {
   margin-top: 1rem;
 }
 
-.help {
+.help, .commandsList {
   display: flex;
   flex-direction: column;
   gap: 1rem;

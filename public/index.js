@@ -89,7 +89,7 @@ async function executeCommand(e, term) {
                 helpCommand(term);
                 break;
             case "commands":
-                console.log("show commands");
+                listCommandsCommand(term);
                 break;
             default:
                 defaultCommand(term, cmd);
@@ -123,5 +123,23 @@ function helpCommand(term) {
     div.appendChild(p4);
     div.appendChild(p5);
     term.appendChild(div);
+}
+function listCommandsCommand(term) {
+    const ul = createElement("ul", ["output", "commandsList"]);
+    const li1 = createElement("li", [], "* ls - Lists the files and directories in the current directory.");
+    const li2 = createElement("li", [], "* cd <dir> - Changes the current directory to <dir>. Use `cd ..` to go up one level.");
+    const li3 = createElement("li", [], "* cat <file> - Prints the contents of <file> to the terminal.");
+    const li4 = createElement("li", [], "* clear - Clears all text from the terminal window.");
+    const li5 = createElement("li", [], "* help - Shows a brief introduction and usage tips.");
+    const li6 = createElement("li", [], "* commands - Displays a full list of available commands.");
+    const li7 = createElement("li", [], "* easymode - Enables “easy navigation” mode—use your arrow keys and Enter to browse directories and open files without typing commands.");
+    ul.appendChild(li1);
+    ul.appendChild(li2);
+    ul.appendChild(li3);
+    ul.appendChild(li4);
+    ul.appendChild(li5);
+    ul.appendChild(li6);
+    ul.appendChild(li7);
+    term.appendChild(ul);
 }
 renderTerminal();
