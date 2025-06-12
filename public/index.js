@@ -86,7 +86,7 @@ async function executeCommand(e, term) {
                 clearCommand(term);
                 break;
             case "help":
-                console.log("help out");
+                helpCommand(term);
                 break;
             case "commands":
                 console.log("show commands");
@@ -95,7 +95,7 @@ async function executeCommand(e, term) {
                 defaultCommand(term, cmd);
                 break;
         }
-        input.readOnly = true;
+        input.disabled = true;
         renderInputLine(term);
     }
 }
@@ -108,5 +108,20 @@ function clearCommand(term) {
 function defaultCommand(term, cmd) {
     const p = createElement("p", ["output"], `${cmd}: command not found`);
     term.appendChild(p);
+}
+// TODO: Highlight ls and commands for user to see better
+function helpCommand(term) {
+    const div = createElement("div", ["output", "help"]);
+    const p1 = createElement("p", [], "Welcome to my terminal portfolio. Here you can explore my projects, view my code samples, and learn more about my skills all through a command-line interface.");
+    const p2 = createElement("p", [], "If you’re comfortable with a UNIX-style terminal, try running `ls` to list the available directories and files.");
+    const p3 = createElement("p", [], "If you’re new to this interface or want to see all the commands that are available, type `commands` and press Enter to view a full list of supported commands.");
+    const p4 = createElement("p", [], "If you find navigating terminals to be too difficult, check out the `easymode` command I made.");
+    const p5 = createElement("p", [], "Feel free to leave feedback by opening an issue on the GitHub repo or emailing me at chance.dev093@gmail.com.");
+    div.appendChild(p1);
+    div.appendChild(p2);
+    div.appendChild(p3);
+    div.appendChild(p4);
+    div.appendChild(p5);
+    term.appendChild(div);
 }
 renderTerminal();

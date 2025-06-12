@@ -195,3 +195,9 @@ input {
 .output {
   margin-top: 1rem;
 }
+
+.help {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
