@@ -91,7 +91,7 @@ async function executeCommand(e: KeyboardEvent, term: HTMLElement) {
     const commands = cmdLine.split(" ");
     const cmd = commands[0];
 
-    await sleep(100);
+    await sleep(50);
 
     switch (cmd) {
       case "ls":
@@ -111,6 +111,8 @@ async function executeCommand(e: KeyboardEvent, term: HTMLElement) {
         break;
       case "commands":
         listCommandsCommand(term);
+        break;
+      case "":
         break;
       default:
         defaultCommand(term, cmd);
@@ -174,13 +176,61 @@ function helpCommand(term: HTMLElement) {
 
 function listCommandsCommand(term: HTMLElement) {
   const ul = createElement("ul", ["output", "commandsList"]);
-  const li1 = createElement("li", [], "* ls - Lists the files and directories in the current directory.");
-  const li2 = createElement("li", [], "* cd <dir> - Changes the current directory to <dir>. Use `cd ..` to go up one level.");
-  const li3 = createElement("li", [], "* cat <file> - Prints the contents of <file> to the terminal.");
-  const li4 = createElement("li", [], "* clear - Clears all text from the terminal window.");
-  const li5 = createElement("li", [], "* help - Shows a brief introduction and usage tips.");
-  const li6 = createElement("li", [], "* commands - Displays a full list of available commands.");
-  const li7 = createElement("li", [], "* easymode - Enables “easy navigation” mode—use your arrow keys and Enter to browse directories and open files without typing commands.");
+  const li1 = createElement(
+    "li",
+    [],
+    "* ls - Lists the files and directories in the current directory.",
+  );
+  const li2 = createElement(
+    "li",
+    [],
+    "* cd <dir> - Changes the current directory to <dir>. Use `cd ..` to go up one level.",
+  );
+  const li3 = createElement(
+    "li",
+    [],
+    "* cat <file> - Prints the contents of <file> to the terminal.",
+  );
+  const li4 = createElement(
+    "li",
+    [],
+    "* clear - Clears all text from the terminal window.",
+  );
+  const li5 = createElement(
+    "li",
+    [],
+    "* help - Shows a brief introduction and usage tips.",
+  );
+  const li6 = createElement(
+    "li",
+    [],
+    "* commands - Displays a full list of available commands.",
+  );
+  const li7 = createElement(
+    "li",
+    [],
+    "* theme - Switches between different color/font themes.",
+  );
+  const li8 = createElement(
+    "li",
+    [],
+    "* pwd - Prints the “present working directory” path.",
+  );
+  const li9 = createElement(
+    "li",
+    [],
+    "* exit - Ends the session and exits the website",
+  );
+  const li10 = createElement(
+    "li",
+    [],
+    "* date - Prints the current date and time.",
+  );
+  const li11 = createElement(
+    "li",
+    [],
+    "* easymode - Enables “easy navigation” mode—use your arrow keys and Enter to browse directories and open files without typing commands.",
+  );
 
   ul.appendChild(li1);
   ul.appendChild(li2);
@@ -189,6 +239,10 @@ function listCommandsCommand(term: HTMLElement) {
   ul.appendChild(li5);
   ul.appendChild(li6);
   ul.appendChild(li7);
+  ul.appendChild(li8);
+  ul.appendChild(li9);
+  ul.appendChild(li10);
+  ul.appendChild(li11);
 
   term.appendChild(ul);
 }

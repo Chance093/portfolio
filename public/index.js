@@ -71,7 +71,7 @@ async function executeCommand(e, term) {
         const cmdLine = input.value.trim();
         const commands = cmdLine.split(" ");
         const cmd = commands[0];
-        await sleep(100);
+        await sleep(50);
         switch (cmd) {
             case "ls":
                 console.log("list");
@@ -90,6 +90,8 @@ async function executeCommand(e, term) {
                 break;
             case "commands":
                 listCommandsCommand(term);
+                break;
+            case "":
                 break;
             default:
                 defaultCommand(term, cmd);
@@ -132,7 +134,11 @@ function listCommandsCommand(term) {
     const li4 = createElement("li", [], "* clear - Clears all text from the terminal window.");
     const li5 = createElement("li", [], "* help - Shows a brief introduction and usage tips.");
     const li6 = createElement("li", [], "* commands - Displays a full list of available commands.");
-    const li7 = createElement("li", [], "* easymode - Enables “easy navigation” mode—use your arrow keys and Enter to browse directories and open files without typing commands.");
+    const li7 = createElement("li", [], "* theme - Switches between different color/font themes.");
+    const li8 = createElement("li", [], "* pwd - Prints the “present working directory” path.");
+    const li9 = createElement("li", [], "* exit - Ends the session and exits the website");
+    const li10 = createElement("li", [], "* date - Prints the current date and time.");
+    const li11 = createElement("li", [], "* easymode - Enables “easy navigation” mode—use your arrow keys and Enter to browse directories and open files without typing commands.");
     ul.appendChild(li1);
     ul.appendChild(li2);
     ul.appendChild(li3);
@@ -140,6 +146,10 @@ function listCommandsCommand(term) {
     ul.appendChild(li5);
     ul.appendChild(li6);
     ul.appendChild(li7);
+    ul.appendChild(li8);
+    ul.appendChild(li9);
+    ul.appendChild(li10);
+    ul.appendChild(li11);
     term.appendChild(ul);
 }
 renderTerminal();
