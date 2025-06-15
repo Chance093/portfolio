@@ -7,7 +7,7 @@
 - [ ] help command should highlight commands that are in content
 - [ ] Add at least 5 different themes
 - [ ] Create pwd command
-- [ ] Create exit command
+- [x] Create exit command
 - [ ] Create date command
 - [ ] Create easymode command
 - [ ] Add command history by clicking up and down arrow

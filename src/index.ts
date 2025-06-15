@@ -85,6 +85,11 @@ class Terminal {
     input.type = "text";
 
     input.addEventListener("keydown", async (e) => {
+      if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+        this.Command.getPastInput(e);
+        return;
+      }
+
       if (e.key !== "Enter") return;
       await this.Command.execute(e);
       this.renderInputLine();
@@ -93,6 +98,7 @@ class Terminal {
     line.append(prompt, input);
     this.window.appendChild(line);
     input.focus();
+    this.Command.setCurrentInput(input);
   }
 }
 
@@ -103,6 +109,8 @@ class Command {
   private currentInput?: HTMLInputElement;
   private command?: string;
   private handlers: Record<string, CommandHandler>;
+  private inputHistory: string[];
+  private inputHistoryIdx: number;
 
   constructor(window: HTMLElement) {
     this.window = window;
@@ -119,14 +127,17 @@ class Command {
       theme: () => console.log("themes"),
       pwd: () => console.log("print working dir"),
       exit: () => this.execExit(),
-      date: () => console.log("date"),
+      date: () => console.log("current date"),
       easymode: () => console.log("entering easy mode"),
     };
+
+    this.inputHistory = [];
+    this.inputHistoryIdx = 0;
   }
 
   async execute(e: KeyboardEvent) {
     e.preventDefault();
-    this.parseInput(e);
+    this.parseInput();
 
     await sleep(COMMAND_BUFFER_DELAY);
 
@@ -135,14 +146,54 @@ class Command {
     await handler();
 
     if (this.currentInput) this.currentInput.disabled = true;
+    this.inputHistoryIdx = this.inputHistory.length;
+    console.log(this.inputHistory, this.inputHistoryIdx);
   }
 
   // parse user input
-  private parseInput(e: KeyboardEvent) {
-    this.currentInput = e.currentTarget as HTMLInputElement;
-    const commands = this.currentInput.value.trim().split(" ");
+  private parseInput() {
+    const cmdLine = this.currentInput!.value.trim();
+    this.inputHistory.push(cmdLine);
+    const commands = cmdLine.split(" ");
 
     this.command = commands[0];
+  }
+
+  setCurrentInput(input: HTMLInputElement) {
+    this.currentInput = input;
+  }
+
+  // set input value with arrow keys
+  getPastInput(e: KeyboardEvent) {
+    e.preventDefault();
+    // go back in input history
+    if (e.key === "ArrowUp") {
+      // if back the furthest in history, set input to ""
+      if (this.inputHistoryIdx <= 0) {
+        this.currentInput!.value = this.inputHistory[0] ?? "";
+        return;
+      }
+
+      this.inputHistoryIdx -= 1;
+    }
+
+    // go forward in input history
+    else if (e.key === "ArrowDown") {
+      // if forward the furthest in history, set input to ""
+      if (this.inputHistoryIdx > this.inputHistory.length - 1) {
+        this.currentInput!.value = "";
+        return;
+      }
+
+      this.inputHistoryIdx += 1;
+    }
+
+    // set current input value to input history and keep cursor at the end
+    const inputVal = this.inputHistory[this.inputHistoryIdx] ?? "";
+    this.currentInput!.value = inputVal;
+    const valueLength = inputVal.length;
+    this.currentInput!.focus();
+    this.currentInput?.setSelectionRange(valueLength, valueLength);
   }
 
   // clears the terminal
@@ -186,7 +237,7 @@ class Command {
   }
 
   private execExit() {
-    window.open('','_self')!.close()
+    window.open("", "_self")!.close();
   }
 }
 
