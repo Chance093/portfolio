@@ -1,5 +1,18 @@
 # portfolio
 
+## TODO
+- [ ] Create ls command
+- [ ] Create cd command
+- [ ] Create cat command
+- [ ] help command should highlight commands that are in content
+- [ ] Add at least 5 different themes
+- [ ] Create pwd command
+- [ ] Create exit command
+- [ ] Create date command
+- [ ] Create easymode command
+- [ ] Add command history by clicking up and down arrow
+- [ ] Add tab autofill
+
 ## Credits
 
 - **Favicon**  

@@ -118,7 +118,7 @@ class Command {
       commands: () => this.execCommands(),
       theme: () => console.log("themes"),
       pwd: () => console.log("print working dir"),
-      exit: () => console.log("exit terminal"),
+      exit: () => this.execExit(),
       date: () => console.log("date"),
       easymode: () => console.log("entering easy mode"),
     };
@@ -183,6 +183,10 @@ class Command {
     }
 
     this.window.appendChild(ul);
+  }
+
+  private execExit() {
+    window.open('','_self')!.close()
   }
 }
 

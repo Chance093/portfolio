@@ -86,7 +86,7 @@ class Command {
             commands: () => this.execCommands(),
             theme: () => console.log("themes"),
             pwd: () => console.log("print working dir"),
-            exit: () => console.log("exit terminal"),
+            exit: () => this.execExit(),
             date: () => console.log("date"),
             easymode: () => console.log("entering easy mode"),
         };
@@ -137,6 +137,9 @@ class Command {
             ul.appendChild(li);
         }
         this.window.appendChild(ul);
+    }
+    execExit() {
+        window.open('', '_self').close();
     }
 }
 async function renderTerminal() {
