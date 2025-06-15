@@ -125,3 +125,25 @@ export const ascii = [
   `/_==__==========__==_ooo__ooo=_/'   /___________,"`,
   `'-----------------------------'"`,
 ];
+
+export const commandsDescList = [
+  "* ls - Lists the files and directories in the current directory.",
+  "* cd <dir> - Changes the current directory to <dir>. Use `cd ..` to go up one level.",
+  "* cat <file> - Prints the contents of <file> to the terminal.",
+  "* clear - Clears all text from the terminal window.",
+  "* help - Shows a brief introduction and usage tips.",
+  "* commands - Displays a full list of available commands.",
+  "* theme - Switches between different color/font themes.",
+  "* pwd - Prints the “present working directory” path.",
+  "* exit - Ends the session and exits the website",
+  "* date - Prints the current date and time.",
+  "* easymode - Enables “easy navigation” mode—use your arrow keys and Enter to browse directories and open files without typing commands.",
+];
+
+export const helpCommandList = [
+  "Welcome to my terminal portfolio. Here you can explore my projects, view my code samples, and learn more about my skills all through a command-line interface.",
+  "If you’re comfortable with a UNIX-style terminal, try running `ls` to list the available directories and files.",
+  "If you’re new to this interface or want to see all the commands that are available, type `commands` and press Enter to view a full list of supported commands.",
+  "If you find navigating terminals to be too difficult, check out the `easymode` command I made.",
+  "Feel free to leave feedback by opening an issue on the GitHub repo or emailing me at chance.dev093@gmail.com.",
+];
