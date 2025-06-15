@@ -10,7 +10,7 @@
 - [x] Create exit command
 - [ ] Create date command
 - [ ] Create easymode command
-- [ ] Add command history by clicking up and down arrow
+- [x] Add command history by clicking up and down arrow
 - [ ] Add tab autofill
 
 ## Credits

@@ -105,6 +105,36 @@ export const bootLog: string[] = [
   "[    0.920000] Last login: Today at 10:42",
 ];
 
+export const shutdownLog: string[] = [
+  "[    0.000000] Initiating shutdown sequence",
+  "[    0.005000] Terminating user sessions…           [  OK  ]",
+  "[    0.010000] Stopping system services:",
+  "           ├─ firewall.service    … stopping       [  OK  ]",
+  "           ├─ sshd.service        … stopping       [  OK  ]",
+  "           ├─ cron.service        … stopping       [  OK  ]",
+  "           └─ logging.service     … stopping       [  OK  ]",
+  "[    0.050000] Killing remaining processes…         [  OK  ]",
+  "[    0.060000] Unmounting virtual filesystems:",
+  "           ├─ devpts              … unmounted     [  OK  ]",
+  "           ├─ tmpfs               … unmounted     [  OK  ]",
+  "           ├─ sysfs               … unmounted     [  OK  ]",
+  "           └─ proc                … unmounted     [  OK  ]",
+  "[    0.100000] Deactivating swap…                    [  OK  ]",
+  "[    0.110000] Unmounting root filesystem: /dev/sda1 [  OK  ]",
+  "[    0.120000] Stopping udev…                        [  OK  ]",
+  "[    0.130000] Shutting down drivers:",
+  "           ├─ sound_card           … unloaded      [  OK  ]",
+  "           ├─ storage_controller   … unloaded      [  OK  ]",
+  "           ├─ usb_controller       … unloaded      [  OK  ]",
+  "           └─ network_adapter      … unloaded      [  OK  ]",
+  "[    0.160000] Flushing file system buffers…       [  OK  ]",
+  "[    0.170000] Disabling memory cache…             [  OK  ]",
+  "[    0.180000] Saving BIOS settings…               [  OK  ]",
+  "[    0.185000] Secure Boot state: preserving       [  OK  ]",
+  "[    0.190000] Powering off hardware…              [  OK  ]",
+  "[    0.195000] Goodbye from TerminalOS 1.0.0",
+];
+
 export const ascii = [
   `             ,----------------,              ,---------,`,
   `        ,-----------------------,          ,"        ,"|`,

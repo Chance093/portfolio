@@ -3,12 +3,15 @@ import {
   bootLog,
   commandsDescList,
   helpCommandList,
+  shutdownLog,
 } from "./content.js";
 import { createElement, sleep } from "./utils.js";
 
 const BOOTLOG_RENDER_DELAY = 10;
+const SHUTDOWN_RENDER_DELAY = 10;
 const INITIAL_BUFFER_DELAY = 200;
 const COMMAND_BUFFER_DELAY = 50;
+const SHUTDOWN_BUFFER_DELAY = 1000;
 
 class Terminal {
   private window: HTMLElement;
@@ -111,6 +114,7 @@ class Command {
   private handlers: Record<string, CommandHandler>;
   private inputHistory: string[];
   private inputHistoryIdx: number;
+  private shutdownDelay: number;
 
   constructor(window: HTMLElement) {
     this.window = window;
@@ -133,6 +137,7 @@ class Command {
 
     this.inputHistory = [];
     this.inputHistoryIdx = 0;
+    this.shutdownDelay = SHUTDOWN_RENDER_DELAY;
   }
 
   async execute(e: KeyboardEvent) {
@@ -236,8 +241,35 @@ class Command {
     this.window.appendChild(ul);
   }
 
-  private execExit() {
+  private async execExit() {
+    for (const log of shutdownLog) {
+      this.computeDelay(log);
+      await sleep(this.shutdownDelay);
+
+      const pre = createElement("pre", ["intro"], log);
+      this.window.appendChild(pre);
+      this.window.scrollTop = this.window.scrollHeight;
+    }
+
+    await sleep(SHUTDOWN_BUFFER_DELAY);
     window.open("", "_self")!.close();
+  }
+
+  private computeDelay(log: string) {
+    if (
+      ["Stopping system", "Unmounting virtual", "Shutting down"].some((tag) =>
+        log.includes(tag),
+      )
+    ) {
+      this.shutdownDelay *= 8;
+    }
+    if (
+      ["Killing remaining", "Deactivating swap", "Flushing file"].some((tag) =>
+        log.includes(tag),
+      )
+    ) {
+      this.shutdownDelay /= 8;
+    }
   }
 }
 

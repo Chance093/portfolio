@@ -1,8 +1,10 @@
-import { ascii, bootLog, commandsDescList, helpCommandList, } from "./content.js";
+import { ascii, bootLog, commandsDescList, helpCommandList, shutdownLog, } from "./content.js";
 import { createElement, sleep } from "./utils.js";
 const BOOTLOG_RENDER_DELAY = 10;
+const SHUTDOWN_RENDER_DELAY = 10;
 const INITIAL_BUFFER_DELAY = 200;
 const COMMAND_BUFFER_DELAY = 50;
+const SHUTDOWN_BUFFER_DELAY = 1000;
 class Terminal {
     window;
     bootDelay;
@@ -80,6 +82,7 @@ class Command {
     handlers;
     inputHistory;
     inputHistoryIdx;
+    shutdownDelay;
     constructor(window) {
         this.window = window;
         this.currentInput = undefined;
@@ -99,6 +102,7 @@ class Command {
         };
         this.inputHistory = [];
         this.inputHistoryIdx = 0;
+        this.shutdownDelay = SHUTDOWN_RENDER_DELAY;
     }
     async execute(e) {
         e.preventDefault();
@@ -181,8 +185,24 @@ class Command {
         }
         this.window.appendChild(ul);
     }
-    execExit() {
+    async execExit() {
+        for (const log of shutdownLog) {
+            this.computeDelay(log);
+            await sleep(this.shutdownDelay);
+            const pre = createElement("pre", ["intro"], log);
+            this.window.appendChild(pre);
+            this.window.scrollTop = this.window.scrollHeight;
+        }
+        await sleep(SHUTDOWN_BUFFER_DELAY);
         window.open("", "_self").close();
+    }
+    computeDelay(log) {
+        if (["Stopping system", "Unmounting virtual", "Shutting down"].some((tag) => log.includes(tag))) {
+            this.shutdownDelay *= 8;
+        }
+        if (["Killing remaining", "Deactivating swap", "Flushing file"].some((tag) => log.includes(tag))) {
+            this.shutdownDelay /= 8;
+        }
     }
 }
 async function renderTerminal() {
