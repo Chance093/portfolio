@@ -12,9 +12,12 @@
   },
   "license": "ISC",
   "author": "Chance093",
-  "type": "esnext",
+  "type": "module",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "serve": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
