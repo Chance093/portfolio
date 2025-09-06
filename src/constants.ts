@@ -1,0 +1,5 @@
+export const BOOTLOG_RENDER_DELAY = 10;
+export const SHUTDOWN_RENDER_DELAY = 10;
+export const INITIAL_BUFFER_DELAY = 200;
+export const COMMAND_BUFFER_DELAY = 50;
+export const SHUTDOWN_BUFFER_DELAY = 1000;

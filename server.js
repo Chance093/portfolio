@@ -37,6 +37,9 @@ const server = http.createServer((req, res) => {
   // if URL ends in slash, serve index.html
   if (fileLoc.endsWith(path.sep)) fileLoc += 'index.html'
 
+  // if file has no pathname, assume it is a .js file
+  if (!path.extname(fileLoc)) fileLoc += ".js";
+
   fs.stat(fileLoc, (err, stats) => {
     if (err || !stats.isFile()) {
       res.writeHead(404, { 'Content-Type': 'text/plain' })
