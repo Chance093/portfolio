@@ -16,7 +16,6 @@ export class ScreenRenderer {
         }
     }
     async boot(command) {
-        console.log("booting");
         // add tiny sleep to prevent loading before browser load
         await sleep(INITIAL_BUFFER_DELAY);
         // load in all the bootlog info

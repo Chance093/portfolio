@@ -1,26 +1,11 @@
-import { Command } from "./commands";
-import { ScreenRenderer } from "./screenRenderer";
+import { Executor } from "./executor";
+import { Terminal } from "./terminal";
 
-class Terminal {
-  private screenRenderer: ScreenRenderer;
-  private command: Command;
+async function main() {
+  const terminal = new Terminal("terminalWindow");
+  const executor = new Executor(terminal.container);
 
-  constructor() {
-    const window = document.getElementById("terminalWindow");
-    if (!window) throw new Error("no window");
-
-    this.screenRenderer = new ScreenRenderer(window);
-    this.command = new Command(window);
-  }
-
-  async boot() {
-    await this.screenRenderer.boot(this.command);
-  }
+  await executor.boot();
 }
 
-async function renderTerminal() {
-  const terminal = new Terminal();
-  await terminal.boot();
-}
-
-renderTerminal();
+main();
