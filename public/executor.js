@@ -12,28 +12,11 @@ export class Executor {
         const bootLog = this.builder.getBootLog();
         const breakEl = this.builder.getBreakEl();
         const ascii = this.builder.getAscii();
-        const [inputLine, input] = this.builder.getInputLine();
-        input.addEventListener("keydown", (e) => this.onInputKeydown(e, input));
+        const inputLine = this.builder.getInputLine(this.renderer);
         await this.renderer.renderWithDelay(bootLog, BOOTLOG_RENDER_DELAY);
         this.renderer.render(breakEl);
         this.renderer.render(ascii);
-        this.renderer.render([inputLine]);
-        input.focus();
-    }
-    async onInputKeydown(e, input) {
-        if (e.key === "ArrowUp" || e.key === "ArrowDown") {
-            this.getPastInput(e);
-            return;
-        }
-        if (e.key !== "Enter")
-            return;
-        await this.executeCommand(e);
-        this.renderer.render([input]);
-    }
-    getPastInput(e) {
-        return;
-    }
-    async executeCommand(e) {
-        console.log("executing");
+        this.renderer.render([inputLine.getLine()]);
+        inputLine.getInput().focus();
     }
 }

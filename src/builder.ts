@@ -1,4 +1,5 @@
 import { ascii, bootLog } from "./content";
+import { Renderer } from "./renderer";
 import { createElement } from "./utils";
 
 export class Builder {
@@ -27,14 +28,64 @@ export class Builder {
     return asciiEls;
   }
 
-  getInputLine() {
-    const line = createElement("div", ["inputLine"]);
+  getInputLine(renderer: Renderer) {
+    return new InputLine(renderer);
+  }
+}
+
+class InputLine {
+  currentInput: HTMLInputElement;
+  line: HTMLElement;
+
+  constructor(private renderer: Renderer) {
     const prompt = createElement("p", ["user"], "[portfolio@chance ~]$ ");
-    const input = createElement("input", ["input"]) as HTMLInputElement;
-    input.type = "text";
+    this.line = createElement("div", ["inputLine"]);
+    this.currentInput = createElement("input", ["input"]) as HTMLInputElement;
+    this.currentInput.type = "text";
 
-    line.append(prompt, input);
+    this.line.append(prompt, this.currentInput);
 
-    return [line, input] as const;
+    this.currentInput.addEventListener("keydown", (e) => this.onInputKeydown(e));
+  }
+
+  getInput() {
+    return this.currentInput;
+  }
+
+  getLine() {
+    return this.line;
+  }
+
+  private async onInputKeydown(e: KeyboardEvent) {
+    if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+      this.getPastInput(e);
+      return;
+    } else if (e.key === "Enter") {
+      await this.executeCommand(e);
+      this.createNewInput();
+    }
+  }
+
+  private getPastInput(e: KeyboardEvent) {
+    if (e.key === "ArrowUp") {
+      console.log("up");
+    } else if (e.key === "ArrowDown") {
+      console.log("down");
+    }
+  }
+
+  async executeCommand(e: KeyboardEvent) {
+    e.preventDefault();
+    if (this.currentInput.value === "") return;
+
+    console.log("executing command:", this.currentInput.value);
+  }
+
+  createNewInput() {
+    const newInput = new InputLine(this.renderer);
+    this.renderer.render([newInput.getLine()]);
+
+    this.currentInput.disabled = true;
+    newInput.getInput().focus();
   }
 }
