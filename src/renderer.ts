@@ -17,4 +17,10 @@ export class Renderer {
       this.container.scrollTop = this.container.scrollHeight;
     }
   }
+
+  clearScreen() {
+    while (this.container.firstChild) {
+      this.container.removeChild(this.container.firstChild);
+    }
+  }
 }
