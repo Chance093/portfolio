@@ -59,6 +59,8 @@ class InputLine {
     handlers;
     currentInput;
     line;
+    static inputHistory = [];
+    static inputHistoryIdx = 0;
     constructor(renderer, handlers) {
         this.renderer = renderer;
         this.handlers = handlers;
@@ -87,22 +89,36 @@ class InputLine {
     }
     getPastInput(e) {
         if (e.key === "ArrowUp") {
-            console.log("up");
+            if (InputLine.inputHistoryIdx <= 0) {
+                this.currentInput.value = InputLine.inputHistory[0] ?? "";
+                return;
+            }
+            InputLine.inputHistoryIdx -= 1;
         }
         else if (e.key === "ArrowDown") {
-            console.log("down");
+            if (InputLine.inputHistoryIdx > InputLine.inputHistory.length - 1) {
+                this.currentInput.value = "";
+                return;
+            }
         }
+        // set current input value to input history and keep cursor at the end
+        const inputVal = InputLine.inputHistory[InputLine.inputHistoryIdx] ?? "";
+        this.currentInput.value = inputVal;
+        const valueLength = inputVal.length;
+        this.currentInput.focus();
+        this.currentInput.setSelectionRange(valueLength, valueLength);
     }
     async executeCommand(e) {
         e.preventDefault();
         await sleep(COMMAND_BUFFER_DELAY);
-        const command = this.parseInput();
+        const command = this.getCommand();
         if (command === "")
             return;
         const handler = this.handlers[command] ?? this.handlers["execNotFound"];
         await handler();
         if (this.currentInput)
             this.currentInput.disabled = true;
+        InputLine.addToInputHistory(command);
     }
     createNewInput() {
         const newInput = new InputLine(this.renderer, this.handlers);
@@ -110,9 +126,13 @@ class InputLine {
         this.currentInput.disabled = true;
         newInput.getInput().focus();
     }
-    parseInput() {
+    getCommand() {
         const cmdLine = this.currentInput.value.trim();
         const commands = cmdLine.split(" ");
         return commands[0];
+    }
+    static addToInputHistory(command) {
+        this.inputHistory.push(command);
+        this.inputHistoryIdx = InputLine.inputHistory.length;
     }
 }

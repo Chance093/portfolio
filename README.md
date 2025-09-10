@@ -14,6 +14,7 @@
 - [ ] Add tab autofill
 - [ ] Update not found command to show name of the not found command
 - [x] Add scatter effect to delay render
+- [ ] Add command history
 
 ## Credits
 
