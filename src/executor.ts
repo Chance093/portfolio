@@ -2,13 +2,12 @@ import { Renderer } from "./renderer";
 import { Builder } from "./builder";
 import { BOOTLOG_DELAY_FLAGS, BOOTLOG_RENDER_DELAY, SHUTDOWN_BUFFER_DELAY, SHUTDOWN_DELAY_FLAGS, SHUTDOWN_RENDER_DELAY } from "./constants";
 import { sleep } from "./utils";
-
-export type CommandHandler = () => void | Promise<void>;
+import type { Handlers } from "./definitions";
 
 export class Executor {
   private builder: Builder;
   private renderer: Renderer;
-  private handlers: Record<string, CommandHandler>
+  private handlers: Handlers;
 
   constructor(container: HTMLElement) {
     this.builder = new Builder();

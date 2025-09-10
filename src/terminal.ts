@@ -4,6 +4,6 @@ export class Terminal {
   constructor(containerId: string) {
     const el = document.getElementById(containerId);
     if (!el) throw new Error(`No element with id: ${containerId}`);
-    this.container= el;
+    this.container = el;
   }
 }

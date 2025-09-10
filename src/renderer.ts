@@ -1,9 +1,5 @@
+import type { DelayFlags } from "./definitions";
 import { sleep } from "./utils";
-
-export type DelayFlags = {
-  fast: string[],
-  slow: string[],
-}
 
 export class Renderer {
   constructor(private container: HTMLElement) { }
@@ -27,7 +23,7 @@ export class Renderer {
     for (const el of elements) {
       if (flags.slow.some((tag) => el.innerText.includes(tag))) {
         delay *= 8;
-      } 
+      }
 
       if (flags.fast.some((tag) => el.innerText.includes(tag))) {
         delay /= 8;

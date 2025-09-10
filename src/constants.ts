@@ -1,4 +1,4 @@
-import { DelayFlags } from "./renderer";
+import type { DelayFlags } from "./definitions";
 
 export const BOOTLOG_RENDER_DELAY = 10;
 export const SHUTDOWN_RENDER_DELAY = 10;
