@@ -1,6 +1,6 @@
 import { Renderer } from "./renderer";
 import { Builder } from "./builder";
-import { BOOTLOG_RENDER_DELAY, SHUTDOWN_BUFFER_DELAY } from "./constants";
+import { BOOTLOG_DELAY_FLAGS, BOOTLOG_RENDER_DELAY, SHUTDOWN_BUFFER_DELAY, SHUTDOWN_DELAY_FLAGS, SHUTDOWN_RENDER_DELAY } from "./constants";
 import { sleep } from "./utils";
 export class Executor {
     builder;
@@ -29,7 +29,7 @@ export class Executor {
         const breakEl = this.builder.getBreakEl();
         const ascii = this.builder.getAscii();
         const inputLine = this.builder.getInputLine(this.renderer, this.handlers);
-        await this.renderer.renderWithDelay(bootLog, BOOTLOG_RENDER_DELAY);
+        await this.renderer.renderWithScatteredDelay(bootLog, BOOTLOG_RENDER_DELAY, BOOTLOG_DELAY_FLAGS);
         this.renderer.render(breakEl);
         this.renderer.render(ascii);
         this.renderer.render([inputLine.getLine()]);
@@ -52,7 +52,7 @@ export class Executor {
     }
     async execExit() {
         const exit = this.builder.getExit();
-        this.renderer.renderWithDelay(exit, 8);
+        await this.renderer.renderWithScatteredDelay(exit, SHUTDOWN_RENDER_DELAY, SHUTDOWN_DELAY_FLAGS);
         await sleep(SHUTDOWN_BUFFER_DELAY);
         window.open("", "_self").close();
     }

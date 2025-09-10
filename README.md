@@ -10,8 +10,10 @@
 - [x] Create exit command
 - [ ] Create date command
 - [ ] Create easymode command
-- [x] Add command history by clicking up and down arrow
+- [ ] Add command history by clicking up and down arrow
 - [ ] Add tab autofill
+- [ ] Update not found command to show name of the not found command
+- [x] Add scatter effect to delay render
 
 ## Credits
 

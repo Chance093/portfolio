@@ -1,5 +1,10 @@
 import { sleep } from "./utils";
 
+export type DelayFlags = {
+  fast: string[],
+  slow: string[],
+}
+
 export class Renderer {
   constructor(private container: HTMLElement) { }
 
@@ -15,6 +20,22 @@ export class Renderer {
       await sleep(delay)
       this.container.appendChild(el);
       this.container.scrollTop = this.container.scrollHeight;
+    }
+  }
+
+  async renderWithScatteredDelay(elements: HTMLElement[], delay: number, flags: DelayFlags) {
+    for (const el of elements) {
+      if (flags.slow.some((tag) => el.innerText.includes(tag))) {
+        delay *= 8;
+      } 
+
+      if (flags.fast.some((tag) => el.innerText.includes(tag))) {
+        delay /= 8;
+      }
+
+      this.container.appendChild(el);
+      this.container.scrollTop = this.container.scrollHeight;
+      await sleep(delay);
     }
   }
 

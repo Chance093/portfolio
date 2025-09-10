@@ -124,7 +124,7 @@ class InputLine {
     const command = this.parseInput();
 
     if (command === "") return;
-    const handler = this.handlers[command] ?? (() => this.handlers["execNotFound"])
+    const handler = this.handlers[command] ?? this.handlers["execNotFound"];
     await handler();
 
     if (this.currentInput) this.currentInput.disabled = true;
